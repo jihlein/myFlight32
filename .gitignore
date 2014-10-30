@@ -1,0 +1,12 @@
+# Object files
+*.o
+
+# system Directories
+/Debug
+/Release
+
+/src/matlab/modelSrc/slprj
+
+.cproject
+
+*.mexw64
