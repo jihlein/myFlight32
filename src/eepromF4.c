@@ -49,7 +49,7 @@
 // EEPROM Variables
 ///////////////////////////////////////////////////////////////////////////////
 
-static uint8_t checkNewEEPROMConf = 1;
+static uint8_t checkNewEEPROMConf = 3;
 
 eepromConfig_t eepromConfig;
 
@@ -197,47 +197,68 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////
 
-        eepromConfig.accelBias[XAXIS] = 0.0f;
-        eepromConfig.accelBias[YAXIS] = 0.0f;
-        eepromConfig.accelBias[ZAXIS] = 0.0f;
-
-        eepromConfig.accelBias[XAXIS + 3] = 2048.0f;
-		eepromConfig.accelBias[YAXIS + 3] = 2048.0f;
-		eepromConfig.accelBias[ZAXIS + 3] = 2048.0f;
+        eepromConfig.mpuTempMin =   0.0f;
+        eepromConfig.mpuTempMax = 100.0f;
 
         ///////////////////////////////
 
-        eepromConfig.accelScaleFactor[XAXIS] = 0.00119708f;      // MPU (1/8192) * 9.8065  (8192 LSB = 1 G)
-        eepromConfig.accelScaleFactor[YAXIS] = 0.00119708f;      // MPU (1/8192) * 9.8065  (8192 LSB = 1 G)
-        eepromConfig.accelScaleFactor[ZAXIS] = 0.00119708f;      // MPU (1/8192) * 9.8065  (8192 LSB = 1 G)
+        eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0] = 0.0f;
+        eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1] = 0.0f;
+        eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2] = 0.0f;
+        eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3] = 0.0f;
+        eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4] = 0.0f;
 
-        eepromConfig.accelScaleFactor[XAXIS + 3] = 0.04937965f;  // MXR (3.3 / 4096) / 0.16 * 9.8065
-        eepromConfig.accelScaleFactor[YAXIS + 3] = 0.04937965f;  // MXR (3.3 / 4096) / 0.16 * 9.8065
-        eepromConfig.accelScaleFactor[ZAXIS + 3] = 0.04937965f;  // MXR (3.3 / 4096) / 0.16 * 9.8065
+        eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0] = 0.0f;
+        eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1] = 0.0f;
+        eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2] = 0.0f;
+        eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3] = 0.0f;
+        eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4] = 0.0f;
 
-        ///////////////////////////////
-
-        eepromConfig.accelTCBiasSlope[XAXIS] = 0.0f;
-        eepromConfig.accelTCBiasSlope[YAXIS] = 0.0f;
-        eepromConfig.accelTCBiasSlope[ZAXIS] = 0.0f;
-
-        ///////////////////////////////
-
-        eepromConfig.accelTCBiasIntercept[XAXIS] = 0.0f;
-        eepromConfig.accelTCBiasIntercept[YAXIS] = 0.0f;
-        eepromConfig.accelTCBiasIntercept[ZAXIS] = 0.0f;
+        eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0] = 0.0f;
+        eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1] = 0.0f;
+        eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2] = 0.0f;
+        eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3] = 0.0f;
+        eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4] = 0.0f;
 
         ///////////////////////////////
 
-        eepromConfig.gyroTCBiasSlope[ROLL ] = 0.0f;
-        eepromConfig.gyroTCBiasSlope[PITCH] = 0.0f;
-        eepromConfig.gyroTCBiasSlope[YAW  ] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4] = 1.0f;
 
-	    ///////////////////////////////
+        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4] = 1.0f;
 
-	    eepromConfig.gyroTCBiasIntercept[ROLL ] = 0.0f;
-	    eepromConfig.gyroTCBiasIntercept[PITCH] = 0.0f;
-	    eepromConfig.gyroTCBiasIntercept[YAW  ] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3] = 0.0f;
+        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4] = 1.0f;
+
+        ///////////////////////////////
+
+        eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4] = 0.0f;
+
+        eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4] = 0.0f;
+
+        eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3] = 0.0f;
+        eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4] = 0.0f;
 
 	    ///////////////////////////////
 
@@ -459,8 +480,6 @@ void checkFirstTime(bool eepromReset)
 
         eepromConfig.externalHMC5883          =  0;
         eepromConfig.externalMS5611           =  false;
-
-        eepromConfig.useMXR9150               =  false;
 
         writeEEPROM();
 	}

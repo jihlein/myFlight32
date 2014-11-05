@@ -153,7 +153,6 @@
 #include "magCalibration.h"
 #include "mavlinkStrings.h"
 #include "motors.h"
-#include "mpu6000Calibration.h"
 #include "utilities.h"
 #include "watchdogs.h"
 

@@ -58,6 +58,18 @@ static volatile uint8_t validCliCommand = false;
 
 uint8_t gpsDataType = 0;
 
+///////////////////////////////////////
+
+uint8_t gatheringCalibrationData = false;
+
+float   currentAccelBiasPolynomial[12];
+
+float   currentAccelScaleFactorPolynomial[12];
+
+float   currentGyroBiasPolynomial[12];
+
+uint8_t axis, term;
+
 ///////////////////////////////////////////////////////////////////////////////
 // Read Character String from CLI
 ///////////////////////////////////////////////////////////////////////////////
@@ -254,20 +266,7 @@ void cliCom(void)
 
             ///////////////////////////////
 
-            case 'e': // Loop Delta Times
-               	cliPortPrintF("%7ld, %7ld, %7ld, %7ld, %7ld, %7ld, %7ld\n", deltaTime1000Hz,
-                   		                                                    deltaTime500Hz,
-                   		                                                    deltaTime100Hz,
-                   		                                                    deltaTime50Hz,
-                   		                                                    deltaTime10Hz,
-                   		                                                    deltaTime5Hz,
-                   		                                                    deltaTime1Hz);
-            	validCliCommand = false;
-            	break;
-
-            ///////////////////////////////
-
-            case 'f': // Loop Execution Times
+            case 'e': // Loop Execution Times
                	cliPortPrintF("%7ld, %7ld, %7ld, %7ld, %7ld, %7ld, %7ld\n", executionTime1000Hz,
                	        			                                        executionTime500Hz,
                	        			                                        executionTime100Hz,
@@ -280,12 +279,75 @@ void cliCom(void)
 
             ///////////////////////////////
 
+            case 'f': // Gather Calibration Data On/Off
+        	    if (!gatheringCalibrationData && accelValid && gyroValid)
+        	    {
+        	    	//Save current calibration data and set calibration to default values
+
+        		    ///////////////////////////////
+
+        	        for (axis = 0; axis < 3; axis++)
+        	        {
+        	        	for (term = 0; term < 5; term++)
+        	        	{
+        	        		currentAccelBiasPolynomial[axis * 5 + term]        = eepromConfig.accelBiasPolynomial[axis * 5 + term];
+        	        		currentAccelScaleFactorPolynomial[axis * 5 + term] = eepromConfig.accelScaleFactorPolynomial[axis * 5 + term];
+        	        		currentGyroBiasPolynomial[axis * 5 + term]         = eepromConfig.gyroBiasPolynomial[axis * 5 + term];
+        	        	}
+        	        }
+
+        		    ///////////////////////////////
+
+        	        for (axis = 0; axis < 3; axis++)
+                	{
+                		for (term = 0; term < 5; term++)
+                		{
+                			eepromConfig.accelBiasPolynomial[axis * 5 + term]        = 0.0f;
+                	    	eepromConfig.accelScaleFactorPolynomial[axis * 5 + term] = 0.0f;
+                	        eepromConfig.gyroBiasPolynomial[axis * 5 + term]         = 0.0f;
+                	    }
+                    }
+
+                    eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4] = 1.0f;
+                    eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4] = 1.0f;
+                    eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4] = 1.0f;
+
+                    ///////////////////
+
+                    gatheringCalibrationData = true;
+        	    }
+        	    else
+        	    {
+        	    	// Restore current calibration data
+
+        		    ///////////////////////////////
+
+        	        for (axis = 0; axis < 3; axis++)
+        	        {
+        	        	for (term = 0; term < 5; term++)
+        	        	{
+        	        		eepromConfig.accelBiasPolynomial[axis * 5 + term]        = currentAccelBiasPolynomial[axis * 5 + term];
+        	        		eepromConfig.accelScaleFactorPolynomial[axis * 5 + term] = currentAccelScaleFactorPolynomial[axis * 5 + term];
+        	        		eepromConfig.gyroBiasPolynomial[axis * 5 + term]         = currentGyroBiasPolynomial[axis * 5 + term];
+        	        	}
+        	        }
+
+        		    ///////////////////////////////
+
+        	    	gatheringCalibrationData = false;
+        	    }
+
+              	cliQuery = 'x';
+              	validCliCommand = false;
+               	break;
+
+            ///////////////////////////////
+
             case 'g': // 100 Hz Accels
             	if (accelValid)
-            		cliPortPrintF("%9.4f, %9.4f, %9.4f, %9.4f\n", sensors.accel100Hz[XAXIS],
-            		            			                      sensors.accel100Hz[YAXIS],
-            		            			                      sensors.accel100Hz[ZAXIS],
-            		            			                      mpu6000Temperature);
+            		cliPortPrintF("%9.4f, %9.4f, %9.4f\n", sensors.accel100Hz[XAXIS],
+            		            			               sensors.accel100Hz[YAXIS],
+            		            			               sensors.accel100Hz[ZAXIS]);
             	else
             		cliPortPrint("Accel Invalid....\n");
 
@@ -312,10 +374,9 @@ void cliCom(void)
 
             case 'i': // 500 hz Gyros
             	if (gyroValid)
-            	    cliPortPrintF("%9.4f, %9.4f, %9.4f, %9.4f\n", sensors.gyro500Hz[ROLL ] * R2D,
-            		    	                                      sensors.gyro500Hz[PITCH] * R2D,
-            			    		                              sensors.gyro500Hz[YAW  ] * R2D,
-            				    	                              mpu6000Temperature);
+            	    cliPortPrintF("%9.4f, %9.4f, %9.4f\n", sensors.gyro500Hz[ROLL ] * R2D,
+            		    	                               sensors.gyro500Hz[PITCH] * R2D,
+            			    		                       sensors.gyro500Hz[YAW  ] * R2D);
             	else
             		cliPortPrint("Gyro Invalid....\n");
 
@@ -949,11 +1010,8 @@ void cliCom(void)
 
             ///////////////////////////////
 
-            case 'Y': // Accel Calibration
-                accelCalibrationState = 0;
-                accelCalibrating      = true;
-
-	        	cliQuery = 'x';
+            case 'Y': // Not Used
+                cliQuery = 'x';
                 break;
 
             ///////////////////////////////
@@ -975,8 +1033,8 @@ void cliCom(void)
    		        cliPortPrint("'b' Attitude PIDs                          'B' Set Pitch Rate PID Data  BP;I;D;N\n");
    		        cliPortPrint("'c' Velocity PIDs                          'C' Set Yaw Rate PID Data    CP;I;D;N\n");
    		        cliPortPrint("'d' Position PIDs                          'D' Set Roll Att PID Data    DP;I;D;N\n");
-   		        cliPortPrint("'e' Loop Delta Times                       'E' Set Pitch Att PID Data   EP;I;D;N\n");
-   		        cliPortPrint("'f' Loop Execution Times                   'F' Set Hdg Hold PID Data    FP;I;D;N\n");
+   		        cliPortPrint("'e' Loop Execution Times                   'E' Set Pitch Att PID Data   EP;I;D;N\n");
+   		        cliPortPrint("'f' Gather Calibration Data On/Off         'F' Set Hdg Hold PID Data    FP;I;D;N\n");
    		        cliPortPrint("'g' 500 Hz Accels                          'G' Set nDot PID Data        GP;I;D;N\n");
    		        cliPortPrint("'h' 100 Hz Earth Axis Accels               'H' Set eDot PID Data        HP;I;D;N\n");
    		        cliPortPrint("'i' 500 Hz Gyros                           'I' Set hDot PID Data        IP;I;D;N\n");
@@ -1035,7 +1093,7 @@ void cliCom(void)
    		        }
 
    		        cliPortPrint("\n");
-   		        cliPortPrint("'y' ESC Calibration                        'Y' Accel Calibration\n");
+   		        cliPortPrint("'y' ESC Calibration\n");
    		        cliPortPrint("'z' ADC Values                             'Z' Mag Calibration\n");
    		        cliPortPrint("                                           '?' Command Summary\n");
    		        cliPortPrint("\n");

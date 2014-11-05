@@ -18,14 +18,15 @@ controlDT = 1 / 500;
 
 eepromConfig.version                        = uint8(0);
 
-eepromConfig.accelBias                      = zeros(1,6,'single');
-eepromConfig.accelScaleFactor               = zeros(1,6,'single');
+eepromConfig.mpuTempMin                     = single(0);
 
-eepromConfig.accelTCBiasSlope               = zeros(1,3,'single');
-eepromConfig.accelTCBiasIntercept           = zeros(1,3,'single');
-    
-eepromConfig.gyroTCBiasSlope                = zeros(1,3,'single');
-eepromConfig.gyroTCBiasIntercept            = zeros(1,3,'single');
+eepromConfig.mpuTempMax                     = single(0);
+
+eepromConfig.accelBiasPolynomial            = zeros(3,5,'single');
+
+eepromConfig.accelScaleFactorPolynomial     = zeros(3,5,'single');
+
+eepromConfig.gyroBiasPolynomial             = zeros(3,5,'single');
     
 eepromConfig.magBias                        = zeros(1,6,'single');
     
@@ -197,8 +198,6 @@ eepromConfig.verticalVelocityHoldOnly       = uint8(1);
     
 eepromConfig.externalHMC5883                = uint8(0);
 eepromConfig.externalMS5611                 = uint8(0);
-    
-eepromConfig.useMXR9150                     = uint8(0);
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     

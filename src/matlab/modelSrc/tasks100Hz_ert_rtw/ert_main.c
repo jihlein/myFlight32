@@ -5,7 +5,7 @@
  *
  * Model version                  : 1.392
  * Simulink Coder version         : 8.6 (R2014a) 27-Dec-2013
- * C/C++ source code generated on : Mon Sep 22 19:36:36 2014
+ * C/C++ source code generated on : Tue Nov 04 18:37:19 2014
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: STMicroelectronics->STM32F4xx 32-bit Cortex-M4

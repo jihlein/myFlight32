@@ -116,6 +116,10 @@ int16andUint8_t rawAccel[3];
 
 float nonRotatedAccelData[3];
 
+float accelBias[3];
+
+float accelScaleFactor[3];
+
 ///////////////////////////////////////
 
 float gyroRTBias[3];
@@ -130,11 +134,9 @@ int16andUint8_t rawGyro[3];
 
 float nonRotatedGyroData[3];
 
+float gyroBias[3];
+
 ///////////////////////////////////////
-
-uint8_t mpu6000Calibrating = false;
-
-float   mpu6000Temperature;
 
 int16andUint8_t rawMPU6000Temperature;
 
@@ -251,23 +253,6 @@ void readMPU6000(void)
     rawGyro[YAW  ].bytes[0]        = spiTransfer(MPU6000_SPI, 0x00);
 
     DISABLE_MPU6000;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Compute MPU6000 Temperature Compensation Bias
-///////////////////////////////////////////////////////////////////////////////
-
-void computeMPU6000TCBias(void)
-{
-    mpu6000Temperature = (float) (rawMPU6000Temperature.value) / 340.0f + 35.0f;
-
-    accelTCBias[XAXIS] = eepromConfig.accelTCBiasSlope[XAXIS] * mpu6000Temperature + eepromConfig.accelTCBiasIntercept[XAXIS];
-    accelTCBias[YAXIS] = eepromConfig.accelTCBiasSlope[YAXIS] * mpu6000Temperature + eepromConfig.accelTCBiasIntercept[YAXIS];
-    accelTCBias[ZAXIS] = eepromConfig.accelTCBiasSlope[ZAXIS] * mpu6000Temperature + eepromConfig.accelTCBiasIntercept[ZAXIS];
-
-    gyroTCBias[ROLL ]  = eepromConfig.gyroTCBiasSlope[ROLL ]  * mpu6000Temperature + eepromConfig.gyroTCBiasIntercept[ROLL ];
-    gyroTCBias[PITCH]  = eepromConfig.gyroTCBiasSlope[PITCH]  * mpu6000Temperature + eepromConfig.gyroTCBiasIntercept[PITCH];
-    gyroTCBias[YAW  ]  = eepromConfig.gyroTCBiasSlope[YAW  ]  * mpu6000Temperature + eepromConfig.gyroTCBiasIntercept[YAW  ];
 }
 
 ///////////////////////////////////////////////////////////////////////////////

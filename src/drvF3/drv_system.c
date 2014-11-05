@@ -115,8 +115,7 @@ void SysTick_Handler(void)
 
     if ((systemReady        == true)  &&
         (cliBusy            == false) &&
-        (escCalibrating     == false) &&
-        (mpu6000Calibrating == false))
+        (escCalibrating     == false))
 
     {
     	frameCounter++;

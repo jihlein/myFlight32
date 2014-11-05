@@ -43,6 +43,8 @@
     __attribute__((__section__(".eeprom"), used)) const int8_t eepromArray[16384];
 #endif
 
+float          t1, t2, t3, t4;
+
 sensors_t      sensors;
 
 homeData_t     homeData;
@@ -136,6 +138,17 @@ int main(void)
 				mavlinkSendVfrHud();
 			}
 
+			if (gatheringCalibrationData == true)
+			{
+        		cliPortPrintF("%11.6f,%11.6f,%11.6f,%11.6f,%11.6f,%11.6f,%11.6f\n", t1,
+        				                                                            sensors.gyro500Hz[ROLL ],
+        		                                                                    sensors.gyro500Hz[PITCH],
+        		                                                                    sensors.gyro500Hz[YAW  ],
+        		                                                                    sensors.accel100Hz[XAXIS],
+        		            			                                            sensors.accel100Hz[YAXIS],
+        		            			                                            sensors.accel100Hz[ZAXIS]);
+			}
+
 			executionTime10Hz = micros() - currentTime;
         }
 
@@ -202,20 +215,55 @@ int main(void)
 
             ///////////////////////////
 
-            if (eepromConfig.useMXR9150 == false)
-            {
-				nonRotatedAccelData[XAXIS] = ((float)accelSummedSamples100Hz[XAXIS] * 0.1f - eepromConfig.accelBias[XAXIS] - accelTCBias[XAXIS]) * eepromConfig.accelScaleFactor[XAXIS];
-                nonRotatedAccelData[YAXIS] = ((float)accelSummedSamples100Hz[YAXIS] * 0.1f - eepromConfig.accelBias[YAXIS] - accelTCBias[YAXIS]) * eepromConfig.accelScaleFactor[YAXIS];
-                nonRotatedAccelData[ZAXIS] = ((float)accelSummedSamples100Hz[ZAXIS] * 0.1f - eepromConfig.accelBias[ZAXIS] - accelTCBias[ZAXIS]) * eepromConfig.accelScaleFactor[ZAXIS];
-			}
-			else
-			{
-                #if defined(STM32F40XX)
-				    nonRotatedAccelData[XAXIS] = -(accelSummedSamples100HzMXR[XAXIS] * 0.1f + eepromConfig.accelBias[XAXIS + 3]) * eepromConfig.accelScaleFactor[XAXIS + 3];
-                    nonRotatedAccelData[YAXIS] =  (accelSummedSamples100HzMXR[YAXIS] * 0.1f - eepromConfig.accelBias[YAXIS + 3]) * eepromConfig.accelScaleFactor[YAXIS + 3];
-                    nonRotatedAccelData[ZAXIS] = -(accelSummedSamples100HzMXR[ZAXIS] * 0.1f + eepromConfig.accelBias[ZAXIS + 3]) * eepromConfig.accelScaleFactor[ZAXIS + 3];
-                #endif
-            }
+            t1 = (float) (rawMPU6000Temperature.value) * 0.002941118f + 35.0f;  // 0.00294118 = 1 / 340
+
+            t1 = constrain(t1, eepromConfig.mpuTempMin, eepromConfig.mpuTempMax);
+
+            t2 = SQR(t1);
+            t3 = t2 * t1;
+            t4 = t3 * t1;
+
+            accelBias[XAXIS] = eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0] * t4 +
+            		           eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1] * t3 +
+                               eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2] * t2 +
+                               eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3] * t1 +
+                               eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4];
+
+            accelBias[YAXIS] = eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0] * t4 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1] * t3 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2] * t2 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3] * t1 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4];
+
+            accelBias[ZAXIS] = eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0] * t4 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1] * t3 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2] * t2 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3] * t1 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4];
+
+            accelScaleFactor[XAXIS] = eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0] * t4 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1] * t3 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2] * t2 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3] * t1 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4];
+
+            accelScaleFactor[YAXIS] = eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0] * t4 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1] * t3 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2] * t2 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3] * t1 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4];
+
+            accelScaleFactor[ZAXIS] = eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0] * t4 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1] * t3 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2] * t2 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3] * t1 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4];
+
+            ///////////////////////////
+
+            nonRotatedAccelData[XAXIS] = ((float)accelSummedSamples100Hz[XAXIS] * 0.1f - accelBias[XAXIS]) * accelScaleFactor[XAXIS];
+            nonRotatedAccelData[YAXIS] = ((float)accelSummedSamples100Hz[YAXIS] * 0.1f - accelBias[YAXIS]) * accelScaleFactor[YAXIS];
+            nonRotatedAccelData[ZAXIS] = ((float)accelSummedSamples100Hz[ZAXIS] * 0.1f - accelBias[ZAXIS]) * accelScaleFactor[ZAXIS];
 
 		    arm_mat_init_f32(&a, 3, 3, (float *)mpuOrientationMatrix);
 
@@ -226,11 +274,6 @@ int main(void)
 		    arm_mat_mult_f32(&a, &b, &x);
 
 			///////////////////////////
-
-            if (accelCalibrating == true)
-                accelCalibration();
-
-            ///////////////////////////
 
             if (accelOneGCalcCount > 0)
 			    accelOneGCalc();
@@ -374,13 +417,37 @@ int main(void)
 
             dt500Hz = (float)timerValue * 0.0000005f;  // For integrations in 500 Hz loop
 
-            computeMPU6000TCBias();
-
             ///////////////////////////
 
-		    nonRotatedGyroData[ROLL ] = ((float)gyroSummedSamples500Hz[ROLL ] * 0.5f - gyroTCBias[ROLL ]) * GYRO_SCALE_FACTOR - gyroRTBias[ROLL ];
-            nonRotatedGyroData[PITCH] = ((float)gyroSummedSamples500Hz[PITCH] * 0.5f - gyroTCBias[PITCH]) * GYRO_SCALE_FACTOR - gyroRTBias[PITCH];
-            nonRotatedGyroData[YAW  ] = ((float)gyroSummedSamples500Hz[YAW  ] * 0.5f - gyroTCBias[YAW  ]) * GYRO_SCALE_FACTOR - gyroRTBias[YAW  ];
+            t1 = (float) (rawMPU6000Temperature.value) * 0.002941118f + 35.0f;  // 0.00294118 = 1 / 340
+
+            t1 = constrain(t1, eepromConfig.mpuTempMin, eepromConfig.mpuTempMax);
+
+            t2 = SQR(t1);
+            t3 = t2 * t1;
+            t4 = t3 * t1;
+
+            gyroBias[ROLL ] = eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0] * t4 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1] * t3 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2] * t2 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3] * t1 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4];
+
+            gyroBias[PITCH] = eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0] * t4 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1] * t3 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2] * t2 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3] * t1 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4];
+
+            gyroBias[YAW  ] = eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0] * t4 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1] * t3 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2] * t2 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3] * t1 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4];
+
+		    nonRotatedGyroData[ROLL ] = ((float)gyroSummedSamples500Hz[ROLL ] * 0.5f - gyroBias[ROLL ]) * GYRO_SCALE_FACTOR;
+            nonRotatedGyroData[PITCH] = ((float)gyroSummedSamples500Hz[PITCH] * 0.5f - gyroBias[PITCH]) * GYRO_SCALE_FACTOR;
+            nonRotatedGyroData[YAW  ] = ((float)gyroSummedSamples500Hz[YAW  ] * 0.5f - gyroBias[YAW  ]) * GYRO_SCALE_FACTOR;
 
 		    arm_mat_init_f32(&a, 3, 3, (float *)mpuOrientationMatrix);
 

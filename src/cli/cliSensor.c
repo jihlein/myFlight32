@@ -72,42 +72,66 @@ void sensorCLI()
 
             	#if defined(STM32F40XX)
             	    cliPortPrintF("External MS5611  in use:   %s\n", eepromConfig.externalMS5611  ? "Yes" : "No");
-            	    cliPortPrintF("MXR9150 Accel in use:      %s\n", eepromConfig.useMXR9150      ? "Yes" : "No");
             	#endif
 
             	cliPortPrintF("\n");
 
-                if (eepromConfig.useMXR9150 == 0)
-                {
-					cliPortPrintF("MPU Accel Bias:            %9.3f, %9.3f, %9.3f\n", eepromConfig.accelBias[XAXIS],
-				                                                    		          eepromConfig.accelBias[YAXIS],
-				                                                    		          eepromConfig.accelBias[ZAXIS]);
-				    cliPortPrintF("MPU Accel Scale Factor:    %9.7f, %9.7f, %9.7f\n", eepromConfig.accelScaleFactor[XAXIS],
-								                                                      eepromConfig.accelScaleFactor[YAXIS],
-				                                                		              eepromConfig.accelScaleFactor[ZAXIS]);
-			    }
-                else
-                {
-					cliPortPrintF("MXR Accel Bias:            %9.3f, %9.3f, %9.3f\n", eepromConfig.accelBias[XAXIS + 3],
-				                                                		              eepromConfig.accelBias[YAXIS + 3],
-				                                                		              eepromConfig.accelBias[ZAXIS + 3]);
-				    cliPortPrintF("MXR Accel Scale Factor:    %9.7f, %9.7f, %9.7f\n", eepromConfig.accelScaleFactor[XAXIS + 3],
-								                                                      eepromConfig.accelScaleFactor[YAXIS + 3],
-				                                                		              eepromConfig.accelScaleFactor[ZAXIS + 3]);
-                }
+                cliPortPrintF("MPU Min/Max Temperature: %10.6f, %10.6\n", eepromConfig.mpuTempMin,
+				                                                          eepromConfig.mpuTempMax);
 
-                cliPortPrintF("Accel Temp Comp Slope:     %9.4f, %9.4f, %9.4f\n", eepromConfig.accelTCBiasSlope[XAXIS],
-                                                		                          eepromConfig.accelTCBiasSlope[YAXIS],
-                                                		                          eepromConfig.accelTCBiasSlope[ZAXIS]);
-                cliPortPrintF("Accel Temp Comp Bias:      %9.4f, %9.4f, %9.4f\n", eepromConfig.accelTCBiasIntercept[XAXIS],
-                                                		                          eepromConfig.accelTCBiasIntercept[YAXIS],
-                                                		                          eepromConfig.accelTCBiasIntercept[ZAXIS]);
-                cliPortPrintF("Gyro Temp Comp Slope:      %9.4f, %9.4f, %9.4f\n", eepromConfig.gyroTCBiasSlope[ROLL ],
-                                                                		          eepromConfig.gyroTCBiasSlope[PITCH],
-                                                                		          eepromConfig.gyroTCBiasSlope[YAW  ]);
-                cliPortPrintF("Gyro Temp Comp Intercept:  %9.4f, %9.4f, %9.4f\n", eepromConfig.gyroTCBiasIntercept[ROLL ],
-                                                                   		          eepromConfig.gyroTCBiasIntercept[PITCH],
-                                                                   		          eepromConfig.gyroTCBiasIntercept[YAW  ]);
+                cliPortPrintF("X Accel Bias Polynomial:      %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0],
+				                                                       		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1],
+				                                                    		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2],
+				                                                    		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3],
+				                                                    		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4]);
+
+                cliPortPrintF("Y Accel Bias Polynomial:      %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0],
+				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1],
+				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2],
+				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3],
+				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4]);
+
+                cliPortPrintF("Z Accel Bias Polynomial:      %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0],
+				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1],
+				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2],
+				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3],
+				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4]);
+
+				cliPortPrintF("X Accel SF Polynomial:        %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4]);
+
+				cliPortPrintF("Y Accel SF Polynomial:        %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4]);
+
+				cliPortPrintF("Z Accel SF Polynomial:        %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3],
+				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4]);
+
+                cliPortPrintF("X Gyro Bias Polynomial:       %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0],
+                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1],
+                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2],
+                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3],
+                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4]);
+
+                cliPortPrintF("Y Gyro Bias Polynomial:       %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0],
+                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1],
+                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2],
+                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3],
+                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4]);
+
+                cliPortPrintF("Z Gyro Bias Polynomial:       %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0],
+                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1],
+                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2],
+                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3],
+                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4]);
                 if (eepromConfig.externalHMC5883 == 0)
                 {
 					cliPortPrintF("Internal Mag Bias:         %9.4f, %9.4f, %9.4f\n", eepromConfig.magBias[XAXIS],
@@ -192,8 +216,9 @@ void sensorCLI()
 
             ///////////////////////////
 
-            case 'b': // MPU6000 Calibration
-                mpu6000Calibration();
+            case 'b': // MPU Temperature Limits
+                eepromConfig.mpuTempMin = readFloatCLI();
+                eepromConfig.mpuTempMax = readFloatCLI();
 
                 sensorQuery = 'a';
                 validQuery = true;
@@ -201,7 +226,124 @@ void sensorCLI()
 
             ///////////////////////////
 
-            case 'e': // Toggle External HMC5883 Use
+            case 'c': // X Accel Bias Polynomial
+                eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'd': // Y Accel Bias Polynomial
+                eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'e': // Z Accel Bias Polynomial
+                eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3] = readFloatCLI();
+                eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'f': // X Accel Scale Factor Polynomial
+                eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'g': // Y Accel Scale Factor Polynomial
+                eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'h': // Z Accel Scale Factor Polynomial
+                eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3] = readFloatCLI();
+                eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'i': // X Gyro Bias Polynomial
+                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'j': // Y Gyro Bias Polynomial
+                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'k': // Z Gyro Bias Polynomial
+                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3] = readFloatCLI();
+                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4] = readFloatCLI();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'n': // Toggle External HMC5883 Use
                 if (eepromConfig.externalHMC5883 == 0)
                 {
                 	eepromConfig.externalHMC5883 = 3;
@@ -228,7 +370,7 @@ void sensorCLI()
             ///////////////////////////
 
             #if defined(STM32F40XX)
-                case 'f': // Toggle External MS5611 Use
+                case 'o': // Toggle External MS5611 Use
                     if (eepromConfig.externalMS5611)
                 	    eepromConfig.externalMS5611 = false;
                     else
@@ -243,21 +385,7 @@ void sensorCLI()
 
             ///////////////////////////
 
-            #if defined(STM32F40XX)
-                case 'g': // Toggle MXR9150 Use
-                    if (eepromConfig.useMXR9150 == 0)
-                   	    eepromConfig.useMXR9150 = 3;
-                    else
-               	        eepromConfig.useMXR9150 = 0;
-
-                    sensorQuery = 'a';
-                    validQuery = true;
-                    break;
-            #endif
-
-            ///////////////////////////
-
-            case 'h': // Toggle GPS Installed
+            case 'p': // Toggle GPS Installed
                 if (eepromConfig.useGPS == false)
                    	eepromConfig.useGPS = true;
                 else
@@ -443,26 +571,29 @@ void sensorCLI()
 			case '?':
 			   	cliPortPrint("\n");
 			   	cliPortPrint("'a' Display Sensor Data                    'A' Set MPU6000 DLPF                     A0 thru 3, see aq32Plus.h\n");
-			   	cliPortPrint("'b' MPU6000 Temp Calibration               'B' Set Accel Cutoff                     BAccelCutoff\n");
-			   	cliPortPrint("                                           'C' Set kpAcc                            CkpAcc\n");
-			   	cliPortPrint("                                           'D' Set kpMag                            DkpMag\n");
-			   	cliPortPrint("'e' Toggle External HMC5883 State          'E' Set Roll/Pitch Trim                  ERoll;Pitch\n");
+			   	cliPortPrint("'b' Set MPU Temperature Limits             'B' Set Accel Cutoff                     BAccelCutoff\n");
+			   	cliPortPrint("'c' Set X Accel Bias Polynomial            'C' Set kpAcc                            CkpAcc\n");
+			   	cliPortPrint("'d' Set Y Accel Bias Polynomial            'D' Set kpMag                            DkpMag\n");
+                cliPortPrint("'e' Set Z Accel Bias Polynomial            'E' Set Roll/Pitch Trim                  ERoll;Pitch\n");
+                cliPortPrint("'f' Set X Accel Scale Factor Polynomial    'F' Set posEstA/posEstB                  FA;B\n");
+                cliPortPrint("'g' Set Y Accel Scale Factor Polynomial    'G' Set hEstA/hEstB                      GA;B\n");
+                cliPortPrint("'h' Set Z Accel Scale Factor Polynomial    'H' Set Sensor Orientation               H1 thru 4\n");
+                cliPortPrint("'i' Set X Gyro Bias Polynomial             'I' Set Earth Accel HP Tau               Itau\n");
+                cliPortPrint("'j' Set Y Gyro Bias Polynomial             'J' Not Used\n");
+                cliPortPrint("'k' Set Z Gyro Bias Polynomial             'K' Not Used\n");
+                cliPortPrint("'l' Not Used                               'L' Not Used\n");
+                cliPortPrint("'m' Not Used                               'M' Not Used\n");
+			   	cliPortPrint("'n' Toggle External HMC5883 State          'N' Set Voltage Monitor Trip Points      Nlow;veryLow;maxLow\n");
 
-			   	#if defined(STM32F30X)
-			   	    cliPortPrint("                                           'F' Set posEstA/posEstB                  FA;B\n");
-			   	    cliPortPrint("                                           'G' Set hEstA/hEstB                      GA;B\n");
-			   	#endif
+			    #if defined(STM32F40XX)
+	                cliPortPrint("'o' Toggle External MS5611 State           'O' Not Used\n");
+                #else
+	                cliPortPrint("'o' Not Used                               'O' Not Used\n");
+	            #endif
 
-			   	#if defined(STM32F40XX)
-			   	    cliPortPrint("'f' Toggle External MS5611 State           'F' Set posEstA/posEstB                  FA;B\n");
-			   	    cliPortPrint("'g' Toggle MXR9150 Use                     'G' Set hEstA/hEstB                      GA;B\n");
-			   	#endif
-
-			   	cliPortPrint("'h' Toggle GPS Installed                   'H' Set Sensor Orientation               H1 thru 4\n");
-			    cliPortPrint("                                           'I' Set Earth Accel HP Tau               Itau\n");
-			   	cliPortPrint("                                           'N' Set Voltage Monitor Trip Points      Nlow;veryLow;maxLow\n");
-			   	cliPortPrint("'v' Toggle Vertical Velocity Hold Only     'V' Set Voltage Monitor Parameters       Vscale;bias;cells\n");
-			   	cliPortPrint("                                           'W' Write EEPROM Parameters\n");
+	            cliPortPrint("'p' Toggle GPS Installed                   'P' Not Used\n");
+	            cliPortPrint("'v' Toggle Vertical Velocity Hold Only     'V' Set Voltage Monitor Parameters       Vscale;bias;cells\n");
+			   	cliPortPrint("'w' Not Used                               'W' Write EEPROM Parameters\n");
 			   	cliPortPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
 	    	    break;
 
