@@ -416,11 +416,11 @@ void systemInit(void)
 
     if (eepromConfig.externalHMC5883 == 3)
     {
-		initMag5883();
+    	initMag5883();
 	}
     else
     {
-        initMag5983();
+    	initMag5983();
 	}
 
     initPressure();

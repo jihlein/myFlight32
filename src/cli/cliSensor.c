@@ -76,73 +76,73 @@ void sensorCLI()
 
             	cliPortPrintF("\n");
 
-                cliPortPrintF("MPU Min/Max Temperature: %10.6f, %10.6\n", eepromConfig.mpuTempMin,
-				                                                          eepromConfig.mpuTempMax);
+                cliPortPrintF("MPU Min/Max Temperature:   %11.6f, %11.6f\n", eepromConfig.mpuTempMin,
+				                                                             eepromConfig.mpuTempMax);
 
-                cliPortPrintF("X Accel Bias Polynomial:      %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0],
-				                                                       		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1],
-				                                                    		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2],
-				                                                    		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3],
-				                                                    		                            eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4]);
+                cliPortPrintF("X Accel Bias Polynomial:   %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0],
+				                                                     		                         eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1],
+				                                                    		                         eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2],
+				                                                    		                         eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3],
+				                                                    		                         eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4]);
 
-                cliPortPrintF("Y Accel Bias Polynomial:      %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0],
-				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1],
-				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2],
-				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3],
-				                                                    		                            eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4]);
+                cliPortPrintF("Y Accel Bias Polynomial:   %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0],
+				                                                    		                         eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1],
+				                                                    		                         eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2],
+				                                                    		                         eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3],
+				                                                    		                         eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4]);
 
-                cliPortPrintF("Z Accel Bias Polynomial:      %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0],
-				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1],
-				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2],
-				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3],
-				                                                    		                            eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4]);
+                cliPortPrintF("Z Accel Bias Polynomial:   %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0],
+				                                                    		                         eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1],
+				                                                    		                         eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2],
+				                                                    		                         eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3],
+				                                                    		                         eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4]);
 
-				cliPortPrintF("X Accel SF Polynomial:        %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4]);
+				cliPortPrintF("X Accel SF Polynomial:     %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4]);
 
-				cliPortPrintF("Y Accel SF Polynomial:        %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4]);
+				cliPortPrintF("Y Accel SF Polynomial:     %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4]);
 
-				cliPortPrintF("Z Accel SF Polynomial:        %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3],
-				                                                                                        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4]);
+				cliPortPrintF("Z Accel SF Polynomial:     %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3],
+				                                                                                     eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4]);
 
-                cliPortPrintF("X Gyro Bias Polynomial:       %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0],
-                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1],
-                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2],
-                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3],
-                                                                		                                eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4]);
+                cliPortPrintF("X Gyro Bias Polynomial:    %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0],
+                                                                		                             eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1],
+                                                                		                             eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2],
+                                                                		                             eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3],
+                                                                		                             eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4]);
 
-                cliPortPrintF("Y Gyro Bias Polynomial:       %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0],
-                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1],
-                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2],
-                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3],
-                                                                		                                eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4]);
+                cliPortPrintF("Y Gyro Bias Polynomial:    %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0],
+                                                                		                             eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1],
+                                                                		                             eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2],
+                                                                		                             eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3],
+                                                                		                             eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4]);
 
-                cliPortPrintF("Z Gyro Bias Polynomial:       %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n", eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0],
-                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1],
-                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2],
-                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3],
-                                                                		                                eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4]);
+                cliPortPrintF("Z Gyro Bias Polynomial:    %11.6f, %11.6f, %11.6f, %11.6f, %11.6f\n", eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0],
+                                                                		                             eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1],
+                                                                		                             eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2],
+                                                                		                             eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3],
+                                                                		                             eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4]);
                 if (eepromConfig.externalHMC5883 == 0)
                 {
-					cliPortPrintF("Internal Mag Bias:         %9.4f, %9.4f, %9.4f\n", eepromConfig.magBias[XAXIS],
-                                                   		                              eepromConfig.magBias[YAXIS],
-                                                   		                              eepromConfig.magBias[ZAXIS]);
+					cliPortPrintF("Internal Mag Bias:         %9.4f,   %9.4f,   %9.4f\n", eepromConfig.magBias[XAXIS],
+                                                   		                                  eepromConfig.magBias[YAXIS],
+                                                   		                                  eepromConfig.magBias[ZAXIS]);
                 }
                 else
                 {
-					cliPortPrintF("External Mag Bias:         %9.4f, %9.4f, %9.4f\n", eepromConfig.magBias[XAXIS + 3],
-                                                   		                              eepromConfig.magBias[YAXIS + 3],
-                                                   		                              eepromConfig.magBias[ZAXIS + 3]);
+					cliPortPrintF("External Mag Bias:         %9.4f,   %9.4f,   %9.4f\n", eepromConfig.magBias[XAXIS + 3],
+                                                   		                                  eepromConfig.magBias[YAXIS + 3],
+                                                   		                                  eepromConfig.magBias[ZAXIS + 3]);
                 }
 
                 cliPortPrintF("Accel One G:               %9.4f\n", accelOneG);

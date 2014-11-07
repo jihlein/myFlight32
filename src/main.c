@@ -130,8 +130,6 @@ int main(void)
 
             batMonTick();
 
-            cliCom();
-
             if (eepromConfig.mavlinkEnabled == true)
             {
 				mavlinkSendAttitude();
@@ -141,13 +139,15 @@ int main(void)
 			if (gatheringCalibrationData == true)
 			{
         		cliPortPrintF("%11.6f,%11.6f,%11.6f,%11.6f,%11.6f,%11.6f,%11.6f\n", t1,
-        				                                                            sensors.gyro500Hz[ROLL ],
-        		                                                                    sensors.gyro500Hz[PITCH],
-        		                                                                    sensors.gyro500Hz[YAW  ],
-        		                                                                    sensors.accel100Hz[XAXIS],
-        		            			                                            sensors.accel100Hz[YAXIS],
-        		            			                                            sensors.accel100Hz[ZAXIS]);
+        				                                                            nonRotatedGyroData[ROLL ],
+        		                                                                    nonRotatedGyroData[PITCH],
+        		                                                                    nonRotatedGyroData[YAW  ],
+        		                                                                    nonRotatedAccelData[XAXIS],
+        		            			                                            nonRotatedAccelData[YAXIS],
+        		            			                                            nonRotatedAccelData[ZAXIS]);
 			}
+
+			cliCom();
 
 			executionTime10Hz = micros() - currentTime;
         }
@@ -215,7 +215,7 @@ int main(void)
 
             ///////////////////////////
 
-            t1 = (float) (rawMPU6000Temperature.value) * 0.002941118f + 35.0f;  // 0.00294118 = 1 / 340
+            t1 = (float)rawMPU6000Temperature.value * 0.00294118f + 35.0f;  // 0.00294118 = 1 / 340
 
             t1 = constrain(t1, eepromConfig.mpuTempMin, eepromConfig.mpuTempMax);
 
@@ -419,7 +419,7 @@ int main(void)
 
             ///////////////////////////
 
-            t1 = (float) (rawMPU6000Temperature.value) * 0.002941118f + 35.0f;  // 0.00294118 = 1 / 340
+            t1 = (float)rawMPU6000Temperature.value * 0.00294118f + 35.0f;  // 0.00294118 = 1 / 340
 
             t1 = constrain(t1, eepromConfig.mpuTempMin, eepromConfig.mpuTempMax);
 
@@ -445,9 +445,9 @@ int main(void)
                               eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3] * t1 +
                               eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4];
 
-		    nonRotatedGyroData[ROLL ] = ((float)gyroSummedSamples500Hz[ROLL ] * 0.5f - gyroBias[ROLL ]) * GYRO_SCALE_FACTOR;
-            nonRotatedGyroData[PITCH] = ((float)gyroSummedSamples500Hz[PITCH] * 0.5f - gyroBias[PITCH]) * GYRO_SCALE_FACTOR;
-            nonRotatedGyroData[YAW  ] = ((float)gyroSummedSamples500Hz[YAW  ] * 0.5f - gyroBias[YAW  ]) * GYRO_SCALE_FACTOR;
+		    nonRotatedGyroData[ROLL ] = ((float)gyroSummedSamples500Hz[ROLL ] * 0.5f - gyroBias[ROLL ]) * gyroScaleFactor;
+            nonRotatedGyroData[PITCH] = ((float)gyroSummedSamples500Hz[PITCH] * 0.5f - gyroBias[PITCH]) * gyroScaleFactor;
+            nonRotatedGyroData[YAW  ] = ((float)gyroSummedSamples500Hz[YAW  ] * 0.5f - gyroBias[YAW  ]) * gyroScaleFactor;
 
 		    arm_mat_init_f32(&a, 3, 3, (float *)mpuOrientationMatrix);
 

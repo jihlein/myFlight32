@@ -62,11 +62,13 @@ uint8_t gpsDataType = 0;
 
 uint8_t gatheringCalibrationData = false;
 
-float   currentAccelBiasPolynomial[12];
+float   currentAccelBiasPolynomial[15];
 
-float   currentAccelScaleFactorPolynomial[12];
+float   currentAccelScaleFactorPolynomial[15];
 
-float   currentGyroBiasPolynomial[12];
+float   currentGyroBiasPolynomial[15];
+
+float   currentTMin, currentTMax;
 
 uint8_t axis, term;
 
@@ -279,12 +281,18 @@ void cliCom(void)
 
             ///////////////////////////////
 
-            case 'f': // Gather Calibration Data On/Off
+            case 'f': // Gather Bias Calibration Data On/Off
         	    if (!gatheringCalibrationData && accelValid && gyroValid)
         	    {
         	    	//Save current calibration data and set calibration to default values
 
-        		    ///////////////////////////////
+        		    ///////////////////
+
+        	    	currentTMin = eepromConfig.mpuTempMin;
+
+        	    	currentTMax = eepromConfig.mpuTempMax;
+
+        	    	///////////////////
 
         	        for (axis = 0; axis < 3; axis++)
         	        {
@@ -296,7 +304,13 @@ void cliCom(void)
         	        	}
         	        }
 
-        		    ///////////////////////////////
+        		    ///////////////////
+
+        	        eepromConfig.mpuTempMin = -50.0f;
+
+        	        eepromConfig.mpuTempMax =  95.0f;
+
+        	        ///////////////////
 
         	        for (axis = 0; axis < 3; axis++)
                 	{
@@ -314,13 +328,23 @@ void cliCom(void)
 
                     ///////////////////
 
+                    gyroScaleFactor = 1.0f;
+
+                    ///////////////////
+
                     gatheringCalibrationData = true;
         	    }
         	    else
         	    {
         	    	// Restore current calibration data
 
-        		    ///////////////////////////////
+        		    ///////////////////
+
+        	    	eepromConfig.mpuTempMin = currentTMin;
+
+        	    	eepromConfig.mpuTempMax = currentTMax;
+
+        	    	///////////////////
 
         	        for (axis = 0; axis < 3; axis++)
         	        {
@@ -332,7 +356,11 @@ void cliCom(void)
         	        	}
         	        }
 
-        		    ///////////////////////////////
+        		    ///////////////////
+
+        	        gyroScaleFactor = GYRO_SCALE_FACTOR;
+
+        	        ///////////////////
 
         	    	gatheringCalibrationData = false;
         	    }

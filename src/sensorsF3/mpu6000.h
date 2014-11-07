@@ -98,6 +98,8 @@ extern float nonRotatedGyroData[3];
 
 extern float gyroBias[3];
 
+extern float gyroScaleFactor;
+
 ///////////////////////////////////////
 
 extern int16andUint8_t rawMPU6000Temperature;

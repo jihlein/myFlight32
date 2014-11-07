@@ -133,6 +133,8 @@ float nonRotatedGyroData[3];
 
 float gyroBias[3];
 
+float gyroScaleFactor;
+
 ///////////////////////////////////////
 
 int16andUint8_t rawMPU6000Temperature;
@@ -211,7 +213,11 @@ void initMPU6000(void)
 
     ///////////////////////////////////
 
+    gyroScaleFactor = GYRO_SCALE_FACTOR;
+
     delay(100);
+
+    ///////////////////////////////////
 }
 
 ///////////////////////////////////////////////////////////////////////////////

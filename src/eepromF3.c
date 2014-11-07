@@ -61,7 +61,7 @@
 // EEPROM Variables
 ///////////////////////////////////////////////////////////////////////////////
 
-static uint8_t checkNewEEPROMConf = 3;
+static uint8_t checkNewEEPROMConf = 5;
 
 eepromConfig_t eepromConfig;
 
@@ -285,8 +285,8 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////
 
-        eepromConfig.mpuTempMin =   0.0f;
-        eepromConfig.mpuTempMax = 100.0f;
+        eepromConfig.mpuTempMin = -50.0f;
+        eepromConfig.mpuTempMax =  95.0f;
 
         ///////////////////////////////
 
@@ -314,19 +314,19 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3] = 0.0f;
-        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4] = 1.0f;
+        eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4] = ACCEL_SCALE_FACTOR;
 
         eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3] = 0.0f;
-        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4] = 1.0f;
+        eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4] = ACCEL_SCALE_FACTOR;
 
         eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2] = 0.0f;
         eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3] = 0.0f;
-        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4] = 1.0f;
+        eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4] = ACCEL_SCALE_FACTOR;
 
         ///////////////////////////////
 
