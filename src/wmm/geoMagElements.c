@@ -1,42 +1,8 @@
-/*
-  August 2014
-
-  myFlight32 Rev -
-
-  Copyright (c) 2014 John Ihlein.  All rights reserved.
-
-  Open Source STM32 Based Multicopter Control Software
-
-  Designed to run on Naze32Pro and AQ32 Flight Control Boards
-
-  Includes code and/or ideas from:
-
-  1)AeroQuad
-  2)BaseFlight
-  3)MultiWii
-  4)Paparazzi UAV
-  5)S.O.H. Madgwick
-  6)UAVX
-  7)Me!!
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "board.h"
-#include "wmm.h"
+#include   "board.h"
+//#include "wmm2010.h"
+#include   "wmm2015.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -72,7 +38,7 @@ void setupGeoMagWorkspace(void)
 	magneticModel->nMaxSecVar = nMax;
     magneticModel->epoch      = 2010.0f;
 
-    strncpy(magneticModel->ModelName, "WMM-2010        11/20/2009\0", sizeof(magneticModel->ModelName));
+    strncpy(magneticModel->ModelName, "WMM-2015        12/15/2014\0", sizeof(magneticModel->ModelName));
 
     magneticModel->Main_Field_Coeff_G[0]  = 0.0f;
     magneticModel->Main_Field_Coeff_H[0]  = 0.0f;
@@ -131,13 +97,12 @@ void computeGeoMagElements(void)
 	userDate.Month = sensors.gps.month;
 	userDate.Day   = sensors.gps.day;
 
-	//cliPortPrint ("\n");
 	//cliPortPrintF("GPS Lat: %7.3f\n", coordGeodetic.phi);
 	//cliPortPrintF("GPS Lon: %7.3f\n", coordGeodetic.lambda);
     //cliPortPrintF("GPS Alt: %7.3f\n", coordGeodetic.HeightAboveEllipsoid);
     //cliPortPrint ("\n");
 
-    MAG_DateToYear(&userDate);
+    //MAG_DateToYear(&userDate);
 
 	//cliPortPrintF("GPS Mon:     %4ld\n",  userDate.Month);
     //cliPortPrintF("GPS Day:     %4ld\n",  userDate.Day);
@@ -145,20 +110,31 @@ void computeGeoMagElements(void)
     //cliPortPrintF("GPS Dec Yr:  %7.3f\n", userDate.DecimalYear);
     //cliPortPrint ("\n");
 
+	userDate.DecimalYear               = readFloatCLI();
+	coordGeodetic.HeightAboveEllipsoid = readFloatCLI();
+	coordGeodetic.phi                  = readFloatCLI();
+	coordGeodetic.lambda               = readFloatCLI();
+
 	MAG_GeodeticToSpherical(ellipsoid, coordGeodetic, &coordSpherical);
 
 	MAG_TimelyModifyMagneticModel(userDate, magneticModel, timedMagneticModel);
 
 	MAG_Geomag(ellipsoid, coordSpherical, coordGeodetic, timedMagneticModel, &geoMagneticElements);
 
-	//cliPortPrintF("X:      %8.1f\n", geoMagneticElements.X);
-	//cliPortPrintF("Y:      %8.1f\n", geoMagneticElements.Y);
-	//cliPortPrintF("Z:      %8.1f\n", geoMagneticElements.Z);
-	//cliPortPrintF("H:      %8.1f\n", geoMagneticElements.H);
-	//cliPortPrintF("F:      %8.1f\n", geoMagneticElements.F);
-	//cliPortPrintF("INCL:   %8.1f\n", geoMagneticElements.Incl);
-	//cliPortPrintF("DECL:   %8.1f\n", geoMagneticElements.Decl);
-	//cliPortPrint ("\n");
+	cliPortPrint ("\n");
+	cliPortPrintF("Dec Yr: %8.1f\n", userDate.DecimalYear);
+    cliPortPrintF("Alt:    %8.1f\n", coordGeodetic.HeightAboveEllipsoid);
+    cliPortPrintF("Lat:    %8.1f\n", coordGeodetic.phi);
+	cliPortPrintF("Lon:    %8.1f\n", coordGeodetic.lambda);
+    cliPortPrint ("\n");
+    cliPortPrintF("X:      %8.1f\n", geoMagneticElements.X);
+	cliPortPrintF("Y:      %8.1f\n", geoMagneticElements.Y);
+	cliPortPrintF("Z:      %8.1f\n", geoMagneticElements.Z);
+	cliPortPrintF("H:      %8.1f\n", geoMagneticElements.H);
+	cliPortPrintF("F:      %8.1f\n", geoMagneticElements.F);
+	cliPortPrintF("INCL:   %8.1f\n", geoMagneticElements.Incl);
+	cliPortPrintF("DECL:   %8.1f\n", geoMagneticElements.Decl);
+	cliPortPrint ("\n");
 
 	clearGeoMagWorkspace();
 }
