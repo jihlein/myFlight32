@@ -2,7 +2,7 @@
 ## Makefile generated for Simulink model 'tasks500Hz'. 
 ## 
 ## Makefile     : tasks500Hz.mk
-## Generated on : Fri Oct 31 21:00:34 2014
+## Generated on : Fri Dec 19 10:58:50 2014
 ## MATLAB Coder version: 2.6 (R2014a)
 ## 
 ## Build Info:
@@ -33,7 +33,7 @@ MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2014a
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2014a/bin
 MATLAB_ARCH_BIN           = C:/PROGRA~1/MATLAB/R2014a/bin/win64
 MASTER_ANCHOR_DIR         = 
-START_DIR                 = C:/Users/JOHNIH~1/Desktop/STM32W~1/MYFLIG~1/src/matlab/modelSrc
+START_DIR                 = C:/Users/John/Documents/Ecilpse/stm32Workspace/myFlight32/src/matlab/multiCopter
 ARCH                      = win64
 SOLVER                    = 
 SOLVER_OBJ                = 

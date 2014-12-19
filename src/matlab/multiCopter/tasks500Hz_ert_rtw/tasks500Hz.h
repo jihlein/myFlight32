@@ -5,7 +5,7 @@
  *
  * Model version                  : 1.392
  * Simulink Coder version         : 8.6 (R2014a) 27-Dec-2013
- * C/C++ source code generated on : Tue Nov 04 18:36:44 2014
+ * C/C++ source code generated on : Fri Dec 19 10:58:37 2014
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: STMicroelectronics->STM32F4xx 32-bit Cortex-M4
@@ -42,9 +42,9 @@ typedef struct {
   uint8_T version;
   real32_T mpuTempMin;
   real32_T mpuTempMax;
-  real32_T accelBiasPolynomial[15];
-  real32_T accelScaleFactorPolynomial[15];
-  real32_T gyroBiasPolynomial[15];
+  real32_T accelBiasPolynomial[12];
+  real32_T accelScaleFactorPolynomial[12];
+  real32_T gyroBiasPolynomial[12];
   real32_T magBias[6];
   real32_T accelCutoff;
   real32_T kpAcc;

@@ -22,11 +22,11 @@ eepromConfig.mpuTempMin                     = single(0);
 
 eepromConfig.mpuTempMax                     = single(0);
 
-eepromConfig.accelBiasPolynomial            = zeros(3,5,'single');
+eepromConfig.accelBiasPolynomial            = zeros(3,4,'single');
 
-eepromConfig.accelScaleFactorPolynomial     = zeros(3,5,'single');
+eepromConfig.accelScaleFactorPolynomial     = zeros(3,4,'single');
 
-eepromConfig.gyroBiasPolynomial             = zeros(3,5,'single');
+eepromConfig.gyroBiasPolynomial             = zeros(3,4,'single');
     
 eepromConfig.magBias                        = zeros(1,6,'single');
     

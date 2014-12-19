@@ -314,17 +314,17 @@ void cliCom(void)
 
         	        for (axis = 0; axis < 3; axis++)
                 	{
-                		for (term = 0; term < 5; term++)
+                		for (term = 0; term < 4; term++)
                 		{
-                			eepromConfig.accelBiasPolynomial[axis * 5 + term]        = 0.0f;
-                	    	eepromConfig.accelScaleFactorPolynomial[axis * 5 + term] = 0.0f;
-                	        eepromConfig.gyroBiasPolynomial[axis * 5 + term]         = 0.0f;
+                			eepromConfig.accelBiasPolynomial[axis * 4 + term]        = 0.0f;
+                	    	eepromConfig.accelScaleFactorPolynomial[axis * 4 + term] = 0.0f;
+                	        eepromConfig.gyroBiasPolynomial[axis * 4 + term]         = 0.0f;
                 	    }
                     }
 
-                    eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4] = 1.0f;
-                    eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4] = 1.0f;
-                    eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4] = 1.0f;
+                    eepromConfig.accelScaleFactorPolynomial[XAXIS * 4 + 3] = 1.0f;
+                    eepromConfig.accelScaleFactorPolynomial[YAXIS * 4 + 3] = 1.0f;
+                    eepromConfig.accelScaleFactorPolynomial[ZAXIS * 4 + 3] = 1.0f;
 
                     ///////////////////
 
@@ -348,11 +348,11 @@ void cliCom(void)
 
         	        for (axis = 0; axis < 3; axis++)
         	        {
-        	        	for (term = 0; term < 5; term++)
+        	        	for (term = 0; term < 4; term++)
         	        	{
-        	        		eepromConfig.accelBiasPolynomial[axis * 5 + term]        = currentAccelBiasPolynomial[axis * 5 + term];
-        	        		eepromConfig.accelScaleFactorPolynomial[axis * 5 + term] = currentAccelScaleFactorPolynomial[axis * 5 + term];
-        	        		eepromConfig.gyroBiasPolynomial[axis * 5 + term]         = currentGyroBiasPolynomial[axis * 5 + term];
+        	        		eepromConfig.accelBiasPolynomial[axis * 4 + term]        = currentAccelBiasPolynomial[axis * 4 + term];
+        	        		eepromConfig.accelScaleFactorPolynomial[axis * 4 + term] = currentAccelScaleFactorPolynomial[axis * 4 + term];
+        	        		eepromConfig.gyroBiasPolynomial[axis * 4 + term]         = currentGyroBiasPolynomial[axis * 4 + term];
         	        	}
         	        }
 

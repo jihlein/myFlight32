@@ -43,7 +43,7 @@
     __attribute__((__section__(".eeprom"), used)) const int8_t eepromArray[16384];
 #endif
 
-float          t1, t2, t3, t4;
+float          t1, t2, t3;
 
 sensors_t      sensors;
 
@@ -221,43 +221,36 @@ int main(void)
 
             t2 = SQR(t1);
             t3 = t2 * t1;
-            t4 = t3 * t1;
 
-            accelBias[XAXIS] = eepromConfig.accelBiasPolynomial[XAXIS * 5 + 0] * t4 +
-            		           eepromConfig.accelBiasPolynomial[XAXIS * 5 + 1] * t3 +
-                               eepromConfig.accelBiasPolynomial[XAXIS * 5 + 2] * t2 +
-                               eepromConfig.accelBiasPolynomial[XAXIS * 5 + 3] * t1 +
-                               eepromConfig.accelBiasPolynomial[XAXIS * 5 + 4];
+            accelBias[XAXIS] = eepromConfig.accelBiasPolynomial[XAXIS * 4 + 0] * t3 +
+                               eepromConfig.accelBiasPolynomial[XAXIS * 4 + 1] * t2 +
+                               eepromConfig.accelBiasPolynomial[XAXIS * 4 + 2] * t1 +
+                               eepromConfig.accelBiasPolynomial[XAXIS * 4 + 3];
 
-            accelBias[YAXIS] = eepromConfig.accelBiasPolynomial[YAXIS * 5 + 0] * t4 +
-                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 1] * t3 +
-                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 2] * t2 +
-                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 3] * t1 +
-                               eepromConfig.accelBiasPolynomial[YAXIS * 5 + 4];
+            accelBias[YAXIS] = eepromConfig.accelBiasPolynomial[YAXIS * 4 + 0] * t3 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 4 + 1] * t2 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 4 + 2] * t1 +
+                               eepromConfig.accelBiasPolynomial[YAXIS * 4 + 3];
 
-            accelBias[ZAXIS] = eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 0] * t4 +
-                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 1] * t3 +
-                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 2] * t2 +
-                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 3] * t1 +
-                               eepromConfig.accelBiasPolynomial[ZAXIS * 5 + 4];
+            accelBias[ZAXIS] = eepromConfig.accelBiasPolynomial[ZAXIS * 4 + 0] * t3 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 4 + 1] * t2 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 4 + 2] * t1 +
+                               eepromConfig.accelBiasPolynomial[ZAXIS * 4 + 3];
 
-            accelScaleFactor[XAXIS] = eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 0] * t4 +
-                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 1] * t3 +
-                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 2] * t2 +
-                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 3] * t1 +
-                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 5 + 4];
+            accelScaleFactor[XAXIS] = eepromConfig.accelScaleFactorPolynomial[XAXIS * 4 + 0] * t3 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 4 + 1] * t2 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 4 + 2] * t1 +
+                                      eepromConfig.accelScaleFactorPolynomial[XAXIS * 4 + 3];
 
-            accelScaleFactor[YAXIS] = eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 0] * t4 +
-                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 1] * t3 +
-                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 2] * t2 +
-                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 3] * t1 +
-                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 5 + 4];
+            accelScaleFactor[YAXIS] = eepromConfig.accelScaleFactorPolynomial[YAXIS * 4 + 0] * t3 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 4 + 1] * t2 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 4 + 2] * t1 +
+                                      eepromConfig.accelScaleFactorPolynomial[YAXIS * 4 + 3];
 
-            accelScaleFactor[ZAXIS] = eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 0] * t4 +
-                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 1] * t3 +
-                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 2] * t2 +
-                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 3] * t1 +
-                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 5 + 4];
+            accelScaleFactor[ZAXIS] = eepromConfig.accelScaleFactorPolynomial[ZAXIS * 4 + 0] * t3 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 4 + 1] * t2 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 4 + 2] * t1 +
+                                      eepromConfig.accelScaleFactorPolynomial[ZAXIS * 4 + 3];
 
             ///////////////////////////
 
@@ -425,25 +418,21 @@ int main(void)
 
             t2 = SQR(t1);
             t3 = t2 * t1;
-            t4 = t3 * t1;
 
-            gyroBias[ROLL ] = eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 0] * t4 +
-                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 1] * t3 +
-                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 2] * t2 +
-                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 3] * t1 +
-                              eepromConfig.gyroBiasPolynomial[ROLL  * 5 + 4];
+            gyroBias[ROLL ] = eepromConfig.gyroBiasPolynomial[ROLL  * 4 + 0] * t3 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 4 + 1] * t2 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 4 + 2] * t1 +
+                              eepromConfig.gyroBiasPolynomial[ROLL  * 4 + 3];
 
-            gyroBias[PITCH] = eepromConfig.gyroBiasPolynomial[PITCH * 5 + 0] * t4 +
-                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 1] * t3 +
-                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 2] * t2 +
-                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 3] * t1 +
-                              eepromConfig.gyroBiasPolynomial[PITCH * 5 + 4];
+            gyroBias[PITCH] = eepromConfig.gyroBiasPolynomial[PITCH * 4 + 0] * t3 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 4 + 1] * t2 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 4 + 2] * t1 +
+                              eepromConfig.gyroBiasPolynomial[PITCH * 4 + 3];
 
-            gyroBias[YAW  ] = eepromConfig.gyroBiasPolynomial[YAW   * 5 + 0] * t4 +
-                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 1] * t3 +
-                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 2] * t2 +
-                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 3] * t1 +
-                              eepromConfig.gyroBiasPolynomial[YAW   * 5 + 4];
+            gyroBias[YAW  ] = eepromConfig.gyroBiasPolynomial[YAW   * 4 + 0] * t3 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 4 + 1] * t2 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 4 + 2] * t1 +
+                              eepromConfig.gyroBiasPolynomial[YAW   * 4 + 3];
 
 		    nonRotatedGyroData[ROLL ] = ((float)gyroSummedSamples500Hz[ROLL ] * 0.5f - gyroBias[ROLL ]) * gyroScaleFactor;
             nonRotatedGyroData[PITCH] = ((float)gyroSummedSamples500Hz[PITCH] * 0.5f - gyroBias[PITCH]) * gyroScaleFactor;
